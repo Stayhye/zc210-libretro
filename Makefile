@@ -133,13 +133,13 @@ else ifeq ($(platform), psp1)
    CFLAGS += -I$(shell psp-config --pspsdk-path)/include
    STATIC_LINKING = 1
 else ifeq ($(platform), ps2)
-   TARGET := $(TARGET_NAME)_libretro_ps2.a
-   CC = ee-gcc
-   CXX = ee-g++
-   AR = ee-ar
-   CFLAGS += -DPS2 -G0 -D__sun
-   CXXFLAGS += -DPS2 -G0 -D__sun
-   STATIC_LINKING = 1
+   TARGET := $(TARGET_NAME)_libretro_$(platform).a
+   CC = mips64r5900el-ps2-elf-gcc
+   CXX = mips64r5900el-ps2-elf-g++
+   AR = mips64r5900el-ps2-elf-ar
+   CFLAGS += -G0 -DPS2 -DABGR1555
+   CXXFLAGS += -G0 -DPS2 -DABGR1555
+   STATIC_LINKING=1
 else ifeq ($(platform), psl1ght)
    EXT=a
    TARGET := $(TARGET_NAME)_libretro_$(platform).$(EXT)
