@@ -9,6 +9,7 @@
 //--------------------------------------------------------
 
 #include <stdio.h>
+#include <fileXio.h>
 #include "zdefs.h"
 #include "pal.h"
 #include "tiles.h"
@@ -3338,7 +3339,7 @@ int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
    #ifdef PS2
       // Force the temporary path directly to mc1:/temp/ on PlayStation 2
       snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
-      sceIoMkdir("mc1:/temp");
+      fileXioMkdir("mc1:/temp", 0777);
    #else
       /* Calculate the temp file path */
       replace_filename(tpath, qstpath, TMP007);
