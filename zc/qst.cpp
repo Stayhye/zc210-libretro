@@ -3337,12 +3337,14 @@ int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
    
    #ifdef PS2
       snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
-      
-      // Unlink any stale handles left over from a previous crash
-      remove(tpath);
+      FILE *raw_f = fopen(tpath, "wb");
+      if (!raw_f) return -1;
+      // Perform write or handle via standard FILE* stream
+      fclose(raw_f);
    #else
       /* Calculate the temp file path */
       replace_filename(tpath, qstpath, TMP007);
+      f = pack_fopen(tpath, "w");
    #endif
 
    zc_message("Loading Quest %s...", get_filename(qstpath));
