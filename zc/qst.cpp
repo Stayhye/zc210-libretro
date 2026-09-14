@@ -3321,7 +3321,7 @@ int readinitdata(PACKFILE *f, zquestheader *header, bool keepdata)
    return 0;
 }
 
-iint loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
+int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
              music *midis)
 {
    const char *TMP007 = "tmp007.tmp";
@@ -3335,8 +3335,13 @@ iint loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
    PACKFILE *f = NULL;
    int ret;
    
-   // Hardcode destination to mc1 since ISO environment blocks local writes completely
-   snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
+   #ifdef PS2
+      // Force the temporary path directly to mc1:/temp/ on PlayStation 2
+      snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
+   #else
+      /* Calculate the temp file path */
+      replace_filename(tpath, qstpath, TMP007);
+   #endif
 
    zc_message("Loading Quest %s...", get_filename(qstpath));
 
