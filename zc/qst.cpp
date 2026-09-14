@@ -3336,8 +3336,10 @@ int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
    int ret;
    
    #ifdef PS2
-      // Force the temporary path directly to mc1:/temp/ on PlayStation 2
       snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
+      
+      // Unlink any stale handles left over from a previous crash
+      remove(tpath);
    #else
       /* Calculate the temp file path */
       replace_filename(tpath, qstpath, TMP007);
