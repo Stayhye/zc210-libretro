@@ -3322,7 +3322,7 @@ int readinitdata(PACKFILE *f, zquestheader *header, bool keepdata)
 }
 
 int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
-              music *midis)
+             music *midis)
 {
    const char *TMP007 = "tmp007.tmp";
    char tpath[MAX_STRLEN];
@@ -3335,8 +3335,14 @@ int loadquest(const char *qstpath, zquestheader *Header, miscQdata *Misc,
    PACKFILE *f = NULL;
    int ret;
    
-   /* Calculate the temp file path */
-   replace_filename(tpath, qstpath, TMP007);
+   #ifdef PS2
+      // Force the temporary path directly to mc1:/temp/ on PlayStation 2
+      snprintf(tpath, sizeof(tpath), "mc1:/temp/%s", TMP007);
+      sceIoMkdir("mc1:/temp");
+   #else
+      /* Calculate the temp file path */
+      replace_filename(tpath, qstpath, TMP007);
+   #endif
 
    zc_message("Loading Quest %s...", get_filename(qstpath));
 
